@@ -1,11 +1,9 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    'sourceType': 'module',
+    sourceType: 'module',
   },
-  plugins: [
-    '@typescript-eslint',
-  ],
+  plugins: ['@typescript-eslint'],
   rules: {
     // Checked by TypeScript - ts(2378)
     'getter-return': 'off',
@@ -41,16 +39,19 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/member-delimiter-style': ['error', {
-      'multiline': {
-        'delimiter': 'semi',
-        'requireLast': true,
+    '@typescript-eslint/member-delimiter-style': [
+      'error',
+      {
+        multiline: {
+          delimiter: 'semi',
+          requireLast: true,
+        },
+        singleline: {
+          delimiter: 'semi',
+          requireLast: false,
+        },
       },
-      'singleline': {
-        'delimiter': 'semi',
-        'requireLast': false,
-      },
-    }],
+    ],
     '@typescript-eslint/member-ordering': 'off',
     '@typescript-eslint/naming-convention': 'off', // Requires type information
     '@typescript-eslint/no-dynamic-delete': 'off',
@@ -64,7 +65,10 @@ module.exports = {
     '@typescript-eslint/no-inferrable-types': 'error',
     '@typescript-eslint/no-misused-new': 'error',
     '@typescript-eslint/no-misused-promises': 'off', // Requires type information
-    '@typescript-eslint/no-namespace': ['error', { 'allowDefinitionFiles': true }],
+    '@typescript-eslint/no-namespace': [
+      'error',
+      { allowDefinitionFiles: true },
+    ],
     '@typescript-eslint/no-non-null-asserted-optional-chain': 'error',
     '@typescript-eslint/no-non-null-assertion': 'error',
     '@typescript-eslint/no-parameter-properties': 'error',
@@ -114,7 +118,7 @@ module.exports = {
     '@typescript-eslint/func-call-spacing': 'error',
     'func-call-spacing': 'off',
 
-    '@typescript-eslint/indent': ['error', 2, { 'SwitchCase': 1 }],
+    '@typescript-eslint/indent': ['error', 2, { SwitchCase: 1 }],
     'indent': 'off',
 
     '@typescript-eslint/no-array-constructor': 'error',
@@ -135,19 +139,30 @@ module.exports = {
     '@typescript-eslint/no-magic-numbers': 'off',
     'no-magic-numbers': 'off',
 
-    '@typescript-eslint/no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true }],
+    '@typescript-eslint/no-unused-expressions': [
+      'error',
+      { allowShortCircuit: true, allowTernary: true },
+    ],
     'no-unused-expressions': 'off',
 
-    '@typescript-eslint/no-unused-vars': ['error', { 'vars': 'all', 'args': 'all', 'argsIgnorePattern': '[_]+' }],
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { vars: 'all', args: 'all', argsIgnorePattern: '[_]+' },
+    ],
     'no-unused-vars': 'off',
 
-    '@typescript-eslint/no-use-before-define': ['error', { 'functions': false }],
+    '@typescript-eslint/no-use-before-define': ['error', { functions: false }],
     'no-use-before-define': 'off',
 
     '@typescript-eslint/no-useless-constructor': 'error',
     'no-useless-constructor': 'off',
 
-    '@typescript-eslint/quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': true }],
+    // Mirrors config for quotes rule in base config, required by prettier
+    '@typescript-eslint/quotes': [
+      'error',
+      'single',
+      { avoidEscape: true, allowTemplateLiterals: true },
+    ],
     'quotes': 'off',
 
     '@typescript-eslint/require-await': 'off', // Requires type information
@@ -160,11 +175,11 @@ module.exports = {
     '@typescript-eslint/space-before-function-paren': [
       'error',
       {
-        'anonymous': 'always',
-        'named': 'never',
-        'asyncArrow': 'always',
+        anonymous: 'always',
+        named: 'never',
+        asyncArrow: 'always',
       },
     ],
     'space-before-function-paren': 'off',
   },
-}
+};

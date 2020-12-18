@@ -8,7 +8,8 @@
     "access": "public"
   },
   "files": [
-    "config/"
+    "config/",
+    "prettier.config.js"
   ],
   "scripts": {
     "test": "eslint ."
@@ -31,6 +32,8 @@
     "eslint-plugin-jest": "^24.1.3",
     "eslint-plugin-mocha": "^8.0.0",
     "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.3.0",
+    "prettier": "^2.2.1",
     "typescript": "^4.0.3"
   },
   "peerDependencies": {

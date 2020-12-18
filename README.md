@@ -6,6 +6,28 @@ This package provides MetaMask's ESLint configuration as an extensible shared co
 
 We export four ESLint configurations.
 
+### Required Peer Dependencies
+
+You will have to install the following peer dependencies yourself, depending on the configs you use:
+
+| Config                               | Plugins                                                         |
+|--------------------------------------|-----------------------------------------------------------------|
+| `@metamask/eslint-config`            | `eslint-plugin-import`, `eslint-plugin-prettier`                |
+| `@metamask/eslint-config/jest`       | `eslint-plugin-jest`                                            |
+| `@metamask/eslint-config/mocha`      | `eslint-plugin-mocha`                                           |
+| `@metamask/eslint-config/nodejs`     | `eslint-plugin-node`                                            |
+| `@metamask/eslint-config/typescript` | `@typescript-eslint/eslint-plugin`, `@typescript-eslint/parser` |
+
+### `prettier` config
+
+The core config uses `eslint-plugin-prettier`.
+This package ships a `prettier` configuration that's made to be compatible with the `eslint` config.
+To use it, you must create the following `prettier.config.js` in your project:
+
+```javascript
+module.exports = require('@metamask/eslint-config/prettier.config');
+```
+
 ### Base config
 
 Our default export contains a base set of ESLint rules for ES6+:
@@ -24,7 +46,7 @@ module.exports = {
   extends: [
     '@metamask/eslint-config',
   ],
-}
+};
 ```
 
 ### Node.js
@@ -45,7 +67,7 @@ module.exports = {
     '@metamask/eslint-config',
     '@metamask/eslint-config/config/nodejs',
   ],
-}
+};
 ```
 
 To lint the `.eslintrc.js` file itself, you will **need** to add this config in addition to the base config.
@@ -69,7 +91,7 @@ module.exports = {
     '@metamask/eslint-config',
     '@metamask/eslint-config/config/jest',
   ],
-}
+};
 ```
 
 ### Mocha
@@ -91,7 +113,7 @@ module.exports = {
     '@metamask/eslint-config',
     '@metamask/eslint-config/config/mocha',
   ],
-}
+};
 ```
 
 If your project has `prefer-arrow-callback` you will need to disable that and replace it with `mocha/prefer-arrow-callback`.

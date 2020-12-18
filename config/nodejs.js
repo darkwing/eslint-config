@@ -1,7 +1,5 @@
 module.exports = {
-  plugins: [
-    'node',
-  ],
+  plugins: ['node'],
   env: {
     node: true,
   },
@@ -49,4 +47,4 @@ module.exports = {
     'node/prefer-promises/dns': 'error',
     'node/prefer-promises/fs': 'error',
   },
-}
+};

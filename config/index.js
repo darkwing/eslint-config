@@ -3,34 +3,107 @@ module.exports = {
     'es6': true,
     'shared-node-browser': true,
   },
-  plugins: [
-    'import',
-  ],
+  plugins: ['import', 'prettier'],
   rules: {
+    // Rules required for Prettier
+
+    'prettier/prettier': 'error',
+
+    // In order to match the prettier spec, you have to enable lines around
+    // comments before and after blocks, objects, and arrays.
+    // https://github.com/prettier/eslint-config-prettier#lines-around-comment
+    'lines-around-comment': [
+      'error',
+      {
+        beforeBlockComment: true,
+        afterLineComment: false,
+        allowBlockStart: true,
+        allowBlockEnd: true,
+        allowObjectStart: true,
+        allowObjectEnd: true,
+        allowArrayStart: true,
+        allowArrayEnd: true,
+      },
+    ],
+
+    // Prettier has some opinions on mixed-operators, and there is ongoing work
+    // to make the output code clear. It is better today then it was when the first
+    // PR to add prettier. That being said, the workaround for keeping this rule enabled
+    // requires breaking parts of operations into different variables -- which I believe
+    // to be worse. https://github.com/prettier/eslint-config-prettier#no-mixed-operators
+    'no-mixed-operators': 'off',
+
+    // Prettier wraps single line functions with ternaries, etc in parens by default, but
+    // if the line is long enough it breaks it into a separate line and removes the parens.
+    // The second behavior conflicts with this rule. There is some guides on the repo about
+    // how you can keep it enabled:
+    // https://github.com/prettier/eslint-config-prettier#no-confusing-arrow
+    // However, in practice this conflicts with prettier adding parens around short lines,
+    // when autofixing in vscode and others.
+    'no-confusing-arrow': 'off',
+
+    // There is no configuration in prettier for how it stylizes regexes, which conflicts
+    // with wrap-regex.
+    'wrap-regex': 'off',
+
+    // Prettier handles all indentation automagically. it can be configured here
+    // https://prettier.io/docs/en/options.html#tab-width but the default matches our
+    // style.
+    'indent': 'off',
+
+    // This rule conflicts with the way that prettier breaks code across multiple lines when
+    // it exceeds the maximum length. Prettier optimizes for readability while simultaneously
+    // maximizing the amount of code per line.
+    'function-paren-newline': 'off',
+
+    // This rule throws an error when there is a line break in an arrow function declaration
+    // but prettier breaks arrow function declarations to be as readable as possible while
+    // still conforming to the width rules.
+    'implicit-arrow-linebreak': 'off',
+
+    // This rule would result in an increase in white space in lines with generator functions,
+    // which impacts prettier's goal of maximizing code per line and readability. There is no
+    // current workaround.
+    'generator-star-spacing': 'off',
+
+    'curly': ['error', 'all'],
+    'arrow-body-style': 'off',
+    'prefer-arrow-callback': 'off',
+    'max-len': 'off',
+    'no-tabs': 'error',
+    'no-unexpected-multiline': 'off',
+    'quotes': [
+      'error',
+      'single',
+      { avoidEscape: true, allowTemplateLiterals: true },
+    ],
+
+    // Not required by prettier, but potentially gotchas
+    'no-restricted-syntax': ['error', 'SequenceExpression'],
+    'no-sequences': 'off',
+
     'accessor-pairs': 'error',
     'array-bracket-newline': 'off',
     'array-bracket-spacing': ['error', 'never'],
     'array-callback-return': 'error',
     'array-element-newline': 'off',
-    'arrow-body-style': 'off',
     'arrow-parens': 'error',
-    'arrow-spacing': ['error', { 'before': true, 'after': true }],
+    'arrow-spacing': ['error', { before: true, after: true }],
     'block-scoped-var': 'error',
     'block-spacing': ['error', 'always'],
     'brace-style': 'error',
     'callback-return': 'off', // Deprecated in ESLint v7.0.0
-    'camelcase': ['error', { 'properties': 'never', 'allow': ['^UNSAFE_'] }],
+    'camelcase': ['error', { properties: 'never', allow: ['^UNSAFE_'] }],
     'capitalized-comments': 'off',
     'class-methods-use-this': 'off',
     'comma-dangle': ['error', 'always-multiline'],
-    'comma-spacing': ['error', { 'before': false, 'after': true }],
+    'comma-spacing': ['error', { before: false, after: true }],
     'comma-style': ['error', 'last'],
     'complexity': 'off',
     'computed-property-spacing': 'error',
     'consistent-return': 'error',
     'consistent-this': ['error', 'self'],
     'constructor-super': 'error',
-    'curly': 'error',
     'default-case': 'error',
     'default-param-last': 'error',
     'dot-location': ['error', 'property'],
@@ -43,8 +116,6 @@ module.exports = {
     'func-names': 'off',
     'func-style': 'off',
     'function-call-argument-newline': 'off',
-    'function-paren-newline': ['error', 'consistent'],
-    'generator-star-spacing': ['error', { 'before': true, 'after': true }],
     'getter-return': 'error',
     'global-require': 'off',
     'grouped-accessor-pairs': 'error',
@@ -53,29 +124,25 @@ module.exports = {
     'id-blacklist': 'off',
     'id-length': 'off',
     'id-match': 'off',
-    'implicit-arrow-linebreak': 'error',
-    'indent': ['error', 2, { 'SwitchCase': 1 }],
     'init-declarations': 'off',
     'jsx-quotes': ['error', 'prefer-double'],
     'key-spacing': 'error',
-    'keyword-spacing': ['error', { 'before': true, 'after': true }],
+    'keyword-spacing': ['error', { before: true, after: true }],
     'line-comment-position': 'off',
     'linebreak-style': 'error',
-    'lines-around-comment': 'error',
     'lines-around-directive': 'off', // Deprecated in in ESLint v4.0.0
     'lines-between-class-members': 'error',
     'max-classes-per-file': 'off',
     'max-depth': 'off',
-    'max-len': 'off',
     'max-lines': 'off',
     'max-lines-per-function': 'off',
     'max-nested-callbacks': 'off',
     'max-params': 'off',
     'max-statements': 'off',
-    'max-statements-per-line': ['error', { 'max': 1 }],
+    'max-statements-per-line': ['error', { max: 1 }],
     'multiline-comment-style': 'off',
     'multiline-ternary': 'off',
-    'new-cap': ['error', { 'newIsCap': true, 'capIsNew': false }],
+    'new-cap': ['error', { newIsCap: true, capIsNew: false }],
     'new-parens': 'error',
     'newline-after-var': 'off',
     'newline-before-return': 'off',
@@ -92,7 +159,6 @@ module.exports = {
     'no-class-assign': 'error',
     'no-compare-neg-zero': 'error',
     'no-cond-assign': 'error',
-    'no-confusing-arrow': 'error',
     'no-console': 'off',
     'no-const-assign': 'error',
     'no-constant-condition': 'error',
@@ -137,19 +203,18 @@ module.exports = {
     'no-irregular-whitespace': 'error',
     'no-iterator': 'error',
     'no-label-var': 'error',
-    'no-labels': ['error', { 'allowLoop': false, 'allowSwitch': false }],
+    'no-labels': ['error', { allowLoop: false, allowSwitch: false }],
     'no-lone-blocks': 'error',
     'no-lonely-if': 'error',
     'no-loop-func': 'error',
     'no-magic-numbers': 'off',
     'no-misleading-character-class': 'error',
-    'no-mixed-operators': 'error',
     'no-mixed-requires': 'off', // Deprecated in ESLint v7.0.0
     'no-mixed-spaces-and-tabs': 'error',
     'no-multi-assign': 'error',
     'no-multi-spaces': 'error',
     'no-multi-str': 'error',
-    'no-multiple-empty-lines': ['error', { 'max': 1 }],
+    'no-multiple-empty-lines': ['error', { max: 1 }],
     'no-native-reassign': 'error',
     'no-negated-condition': 'error',
     'no-negated-in-lhs': 'error',
@@ -165,7 +230,7 @@ module.exports = {
     'no-octal-escape': 'error',
     'no-param-reassign': 'error',
     'no-path-concat': 'off', // Deprecated in ESLint v7.0.0
-    'no-plusplus': ['error', { 'allowForLoopAfterthoughts': true }],
+    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     'no-process-env': 'off', // Deprecated in ESLint v7.0.0
     'no-process-exit': 'off', // Deprecated in ESLint v7.0.0
     'no-proto': 'error',
@@ -176,20 +241,17 @@ module.exports = {
     'no-restricted-imports': 'off',
     'no-restricted-modules': 'off', // Deprecated in ESLint v7.0.0
     'no-restricted-properties': 'off',
-    'no-restricted-syntax': 'off',
     'no-return-assign': ['error', 'except-parens'],
     'no-return-await': 'off', // See https://gist.github.com/Gudahtt/618b89f40164af323e08bbdbd17a1769#gistcomment-3182478
     'no-script-url': 'error',
     'no-self-assign': 'error',
     'no-self-compare': 'error',
-    'no-sequences': 'error',
     'no-setter-return': 'error',
     'no-shadow': 'error',
     'no-shadow-restricted-names': 'error',
     'no-spaced-func': 'error',
     'no-sparse-arrays': 'error',
     'no-sync': 'off', // Deprecated in ESLint v7.0.0
-    'no-tabs': 'error',
     'no-template-curly-in-string': 'error',
     'no-ternary': 'off',
     'no-this-before-super': 'error',
@@ -199,16 +261,21 @@ module.exports = {
     'no-undef-init': 'error',
     'no-undefined': 'off',
     'no-underscore-dangle': 'off',
-    'no-unexpected-multiline': 'error',
     'no-unmodified-loop-condition': 'error',
-    'no-unneeded-ternary': ['error', { 'defaultAssignment': false }],
+    'no-unneeded-ternary': ['error', { defaultAssignment: false }],
     'no-unreachable': 'error',
     'no-unsafe-finally': 'error',
     'no-unsafe-negation': 'error',
-    'no-unused-expressions': ['error', { 'allowShortCircuit': true, 'allowTernary': true }],
+    'no-unused-expressions': [
+      'error',
+      { allowShortCircuit: true, allowTernary: true },
+    ],
     'no-unused-labels': 'error',
-    'no-unused-vars': ['error', { 'vars': 'all', 'args': 'all', 'argsIgnorePattern': '[_]+' }],
-    'no-use-before-define': ['error', { 'functions': false }],
+    'no-unused-vars': [
+      'error',
+      { vars: 'all', args: 'all', argsIgnorePattern: '[_]+' },
+    ],
+    'no-use-before-define': ['error', { functions: false }],
     'no-useless-call': 'error',
     'no-useless-catch': 'error',
     'no-useless-computed-key': 'error',
@@ -223,39 +290,45 @@ module.exports = {
     'no-whitespace-before-property': 'error',
     'no-with': 'error',
     'nonblock-statement-body-position': 'error',
-    'object-curly-newline': ['error', {
-      'consistent': true,
-      'multiline': true,
-    }],
+    'object-curly-newline': [
+      'error',
+      {
+        consistent: true,
+        multiline: true,
+      },
+    ],
     'object-curly-spacing': ['error', 'always'],
     'object-property-newline': 'off',
     'object-shorthand': 'error',
-    'one-var': ['error', { 'initialized': 'never' }],
+    'one-var': ['error', { initialized: 'never' }],
     'one-var-declaration-per-line': 'off',
     'operator-assignment': 'error',
-    'operator-linebreak': ['error', 'after', { 'overrides': { '?': 'ignore', ':': 'ignore' } }],
+    'operator-linebreak': [
+      'error',
+      'after',
+      { overrides: { '?': 'ignore', ':': 'ignore' } },
+    ],
     'padded-blocks': 'off',
     'padding-line-between-statements': [
       'error',
       { blankLine: 'always', prev: 'directive', next: '*' },
       { blankLine: 'any', prev: 'directive', next: 'directive' },
     ],
-    'prefer-arrow-callback': 'off',
     'prefer-const': 'error',
     'prefer-destructuring': [
       'error',
       {
-        'VariableDeclarator': {
-          'array': false,
-          'object': true,
+        VariableDeclarator: {
+          array: false,
+          object: true,
         },
-        'AssignmentExpression': {
-          'array': false,
-          'object': false,
+        AssignmentExpression: {
+          array: false,
+          object: false,
         },
       },
       {
-        'enforceForRenamedProperties': false,
+        enforceForRenamedProperties: false,
       },
     ],
     'prefer-exponentiation-operator': 'off',
@@ -269,7 +342,6 @@ module.exports = {
     'prefer-spread': 'error',
     'prefer-template': 'error',
     'quote-props': 'off',
-    'quotes': ['error', 'single', { 'avoidEscape': true, 'allowTemplateLiterals': true }],
     'radix': 'error',
     'require-atomic-updates': 'error',
     'require-await': 'off',
@@ -277,8 +349,7 @@ module.exports = {
     'require-unicode-regexp': 'error',
     'require-yield': 'error',
     'rest-spread-spacing': 'error',
-    'semi': ['error', 'never'],
-    'semi-spacing': ['error', { 'before': false, 'after': true }],
+    'semi-spacing': ['error', { before: false, after: true }],
     'semi-style': 'error',
     'sort-imports': 'off',
     'sort-keys': 'off',
@@ -287,8 +358,23 @@ module.exports = {
     'space-before-function-paren': ['error', 'always'],
     'space-in-parens': ['error', 'never'],
     'space-infix-ops': 'error',
-    'space-unary-ops': ['error', { 'words': true, 'nonwords': false }],
-    'spaced-comment': ['error', 'always', { 'markers': ['global', 'globals', 'eslint', 'eslint-disable', '*package', '!', ','], 'exceptions': ['=', '-'] }],
+    'space-unary-ops': ['error', { words: true, nonwords: false }],
+    'spaced-comment': [
+      'error',
+      'always',
+      {
+        markers: [
+          'global',
+          'globals',
+          'eslint',
+          'eslint-disable',
+          '*package',
+          '!',
+          ',',
+        ],
+        exceptions: ['=', '-'],
+      },
+    ],
     'strict': 'off',
     'switch-colon-spacing': 'error',
     'symbol-description': 'error',
@@ -300,7 +386,6 @@ module.exports = {
     'valid-typeof': 'error',
     'vars-on-top': 'off',
     'wrap-iife': ['error', 'any'],
-    'wrap-regex': 'error',
     'yield-star-spacing': ['error', 'both'],
     'yoda': ['error', 'never'],
 
@@ -308,7 +393,7 @@ module.exports = {
     'import/dynamic-import-chunkname': 'off',
     'import/export': 'error',
     'import/exports-last': 'off',
-    'import/extensions': ['error', 'never', { 'json': 'always' }],
+    'import/extensions': ['error', 'never', { json: 'always' }],
     'import/first': 'error',
     'import/group-exports': 'off',
     'import/max-dependencies': 'off',
@@ -337,12 +422,15 @@ module.exports = {
     'import/no-restricted-paths': 'off',
     'import/no-self-import': 'error',
     'import/no-unassigned-import': 'error',
-    'import/no-unresolved': ['error', { 'commonjs': true }],
+    'import/no-unresolved': ['error', { commonjs: true }],
     'import/no-unused-modules': 'off',
-    'import/no-useless-path-segments': ['error', { 'commonjs': true, 'noUselessIndex': true }],
+    'import/no-useless-path-segments': [
+      'error',
+      { commonjs: true, noUselessIndex: true },
+    ],
     'import/no-webpack-loader-syntax': 'error',
     'import/order': 'error',
     'import/prefer-default-export': 'off',
     'import/unambiguous': 'error',
   },
-}
+};
